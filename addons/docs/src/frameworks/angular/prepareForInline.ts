@@ -1,6 +1,5 @@
 import React from 'react';
 import { IStory, StoryContext } from '@storybook/angular';
-import { ElementRendererService } from '@storybook/angular/element-renderer';
 import { StoryFn } from '@storybook/addons';
 
 const customElementsVersions: Record<string, number> = {};
@@ -27,6 +26,9 @@ export const prepareForInline = (storyFn: StoryFn<IStory>, { id, parameters }: S
     }
 
     async componentDidMount() {
+      console.log(`Try to import @storybook/angular/element-renderer`);
+      const { ElementRendererService } = await import('@storybook/angular/element-renderer');
+
       // eslint-disable-next-line no-undef
       customElements.define(
         customElementsName,
