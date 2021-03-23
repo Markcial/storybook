@@ -6,7 +6,7 @@ import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
 
 let hasAngularElement = false;
 try {
-  require('@angular/elements');
+  require.resolve('@angular/elements');
   hasAngularElement = true;
 } catch (e) {}
 
@@ -68,7 +68,10 @@ export function webpack(
         path.resolve(__dirname, '..')
       ),
       (createForkTsCheckerInstance(tsLoaderOptions) as any) as Configuration['plugins'][0],
-      ...(hasAngularElement ? [] : [new IgnorePlugin(/@storybook\/angular\/element-renderer/)]),
     ],
+    externals: {
+      ...(config.externals as any),
+      '@storybook/angular/element-renderer': () => {},
+    },
   };
 }
