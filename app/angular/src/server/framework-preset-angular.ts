@@ -1,14 +1,8 @@
 import path from 'path';
-import { ContextReplacementPlugin, Configuration, IgnorePlugin } from 'webpack';
+import { ContextReplacementPlugin, Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import getTsLoaderOptions from './ts_config';
 import createForkTsCheckerInstance from './create-fork-ts-checker-plugin';
-
-let hasAngularElement = false;
-try {
-  require.resolve('@angular/elements');
-  hasAngularElement = true;
-} catch (e) {}
 
 export function webpack(
   config: Configuration,
@@ -69,9 +63,5 @@ export function webpack(
       ),
       (createForkTsCheckerInstance(tsLoaderOptions) as any) as Configuration['plugins'][0],
     ],
-    externals: {
-      ...(config.externals as any),
-      '@storybook/angular/element-renderer': () => {},
-    },
   };
 }
